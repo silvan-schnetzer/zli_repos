@@ -25,4 +25,4 @@ All entered grades are saved in a text file called `grades.txt`.
 2. Run the following command:
 
    ```bash
-   php index.php
+   php Abschlussprojekt2.php
