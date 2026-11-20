@@ -1,0 +1,66 @@
+name: ${COMPOSE_PROJECT_NAME:-phpdev}
+
+services:
+
+  phpdev:
+    build:
+      context: .
+      dockerfile: .docker/Dockerfile
+    container_name: phpdev
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Zurich}
+      XDEBUG_CLIENT_HOST: ${XDEBUG_CLIENT_HOST:-localhost}
+      DB_HOST: db
+      DB_DATABASE: ${DB_DATABASE:-phpdev}
+      DB_USER: ${DB_USER:-phpdev}
+      DB_PASSWORD: ${DB_PASSWORD:-phpdev}
+    volumes:
+      - ./code:/opt/code
+      - ./logs:/var/log/php
+    ports:
+      - "127.0.0.1:${PHP_PORT:-9980}:8888"
+    depends_on:
+      - maildev
+      - db
+
+  maildev:
+    image: maildev/maildev:2.2.1
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Zurich}
+    ports:
+      - "127.0.0.1:${SMTP_PORT:-9925}:1025"
+      - "127.0.0.1:${WEBMAIL_PORT:-9986}:1080"
+
+  db:
+    image: mariadb:11.8
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Europe/Zurich}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root}
+      MARIADB_DATABASE: ${DB_DATABASE:-phpdev}
+      MARIADB_USER: ${DB_USER:-phpdev}
+      MARIADB_PASSWORD: ${DB_PASSWORD:-phpdev}
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:${DB_PORT:-9980}:8888"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  adminer:
+    image: adminer:latest
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - "127.0.0.1:${ADMINER_PORT:-9981}:8080"
+    depends_on:
+      - db
+
+volumes:
+  db-data:

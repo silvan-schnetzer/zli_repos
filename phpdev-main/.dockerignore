@@ -1,0 +1,6 @@
+.git
+code
+logs
+bin
+.env
+*.md

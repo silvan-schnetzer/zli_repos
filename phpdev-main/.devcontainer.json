@@ -1,0 +1,41 @@
+{
+  "name": "PHP",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "phpdev",
+  "workspaceFolder": "/opt/code",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "php.validate.executablePath": "/usr/local/bin/php",
+        "intelephense.environment.phpVersion": "8.5.0",
+        "phpsab.executablePathCS": "/usr/local/bin/phpcs",
+        "phpsab.executablePathCBF": "/usr/local/bin/phpcbf",
+        "phpsab.standard": "PSR12",
+        "phpsab.snifferEnable": true,
+        "phpsab.fixerEnable": true,
+        "[php]": {
+          "editor.defaultFormatter": "valeryanm.vscode-phpsab",
+          "editor.tabSize": 4,
+          "editor.insertSpaces": true
+        },
+        "files.eol": "\n",
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        "editor.formatOnSave": true,
+        "errorLens.onSave": true,
+        "telemetry.telemetryLevel": "off"
+      },
+      "extensions": [
+        "bmewburn.vscode-intelephense-client",
+        "xdebug.php-debug",
+        "valeryanm.vscode-phpsab",
+        "neilbrayfield.php-docblocker",
+        "usernamehw.errorlens",
+        "eamodio.gitlens",
+        "mhutchie.git-graph",
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  }
+}
