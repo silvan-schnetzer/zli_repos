@@ -11,22 +11,24 @@
 use Dom\CharacterData;
 
 $subjects = [];
-$grades = [];
 
 $sum = 0;
 $avg = 0;
 touch("grades.txt");
 $filename = "grades.txt";
-$grades = askgrades($sum, $grades, $avg, $subjects);
+$grades = askgrades($sum, $avg, $subjects);
 file_put_contents($filename, $subjects);
 
 
 
 
-function askgrades($sum, $grades, $avg, $subjects) // Asks amount of subjects, grades and calculates average, puts all Grades in to grades.txt
+function askgrades($sum, $avg, $subjects) // Asks amount of subjects, grades and calculates average, puts all Grades in to grades.txt
 {
+
     do {
         $counterSubject = 0;
+
+        $grades = [];
         array_push($subjects, readline("Welches Fach? ")); // Asks how the Subjects is called.
         do {
             $counterGrade = 1;
@@ -49,12 +51,12 @@ function askgrades($sum, $grades, $avg, $subjects) // Asks amount of subjects, g
             $counterGrade++;
         } while ($input != 'x');
         $counterSubject++;
-        $subjects = $grades;
-
+        $subjects[$counterSubject] = $grades;
         $again = strtolower(readline("Weiteres Fach erfassen? JA | Nein: "));
     } while ($again == 'ja');
     // TODO
-    /*$counter = $counterGrade - 2;
+    $counter = $counterGrade - 2;
+    /*
     $avg = $sum / $counter;*/
     var_dump($subjects);
     echo "Der durchschnitt von $counter Noten ist: $avg, das sind in den faechern: $subjects" . PHP_EOL;

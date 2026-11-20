@@ -12,20 +12,18 @@ use Dom\CharacterData;
 
 $subjects = (int) 0;
 $grades = [];
-$sum = 0;
-$avg = 0;
 touch("grades.txt");
 $filename = "grades.txt";
 $counter = 1;
-$grades = askgrades($counter, $sum, $grades, $avg, $subjects);
+$grades = askgrades($counter, $grades);
 file_put_contents($filename, $grades);
 
 
 
 
-function askgrades($counter, $sum, $grades, $avg, $subjects) // Asks amount of subjects, grades and calculates average, puts all Grades in to grades.txt
+function askgrades($counter, $grades) // Asks amount of subjects, grades and calculates average, puts all Grades in to grades.txt
 {
-
+    $sum = 0;
     do {
         $input = readline("Note " . ($counter) . " [x = abbruch]: ");
         if (is_numeric($input)) {
@@ -43,8 +41,8 @@ function askgrades($counter, $sum, $grades, $avg, $subjects) // Asks amount of s
         }
         $counter++;
     } while ($input != ('x'));
-}
     $counter = $counter - 2;
     $avg = $sum / $counter;
-    echo "Der durchschnitt von $counter Noten ist: $avg, das sind in $subjects Faecher" . PHP_EOL;
+    echo "Der durchschnitt von $counter Noten ist: $avg" . PHP_EOL;
     return $grades;
+}
